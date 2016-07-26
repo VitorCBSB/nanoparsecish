@@ -267,6 +267,10 @@ PARSER(JSONObject*) object() {
          }));
 }
 
+PARSER(JSONValue*) json() {
+    return option(wrapObject(object()), wrapArray(array()));
+}
+
 int main() {
     std::cout << "Welcome to the JSON parser." << std::endl;
     std::cout << "Type in JSON stuff and this will atempt to parse and build it." << std::endl;
@@ -279,7 +283,7 @@ int main() {
         std::getline(std::cin, input);
         if (input == "q")
             break;
-        auto maybeResult = runParser(object(), input);
+        auto maybeResult = runParser(json(), input);
         if (maybeResult) {
             auto result = maybeResult.value();
             result->print();
